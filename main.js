@@ -1,15 +1,46 @@
 const inputText = document.getElementById('inputchar');
 //add enter field 
 
-let checkWord = ['word', 'time', 'match'];
+let checkWord = ['word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match'];
 // check word
 let words;
 let checkIndex = 0
 let indexWord = 0;
+let wordsVoc = 0;
+let index = 0;
+let vocWordsArray;
+let reset = document.getElementById('reset');
+reset.addEventListener("click", resetAll, false);
+
+
+function resetAll() {
+    checkIndex = 0
+    indexWord = 0;
+    wordsVoc = 0;
+    index = 0;
+    showWord()
+    return checkWord, indexWord, wordsVoc, index;
+}
+
+function showWord() {
+    wordsVoc = document.getElementById('words');
+    for (let i = 0; i < checkWord.length; i++) {
+        let spanblock = document.createElement('div');
+        spanblock.className = "wordVoc";
+        spanblock.innerHTML = checkWord[index];
+        wordsVoc.append(spanblock);
+        index++
+    }
+    vocWordsArray = Array.from(document.querySelectorAll('div.wordVoc'))
+    return vocWordsArray;
+}
+showWord()
+
 document.addEventListener('keyup', returEnteredWord, false);
 
 
 function returEnteredWord() {
+
     words = inputText.value;
     //return value input
     arrayWords = words.split('');
@@ -32,7 +63,13 @@ function preparationWord() {
 
 }
 
+function indicator() {
+    vocWordsArray[indexWord].style.background = 'red';
+}
+indicator()
+
 function compareWord() {
+    indicator()
     preparationWord();
     indexWord++;
     document.getElementById('inputchar').value = "";
