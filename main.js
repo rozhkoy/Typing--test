@@ -42,9 +42,10 @@ document.addEventListener('keyup', returEnteredWord, false);
 
 function returEnteredWord() {
 
-    if (indexTypeChar == 0) {
+    if (indexWord == 0) {
         indicator();
     }
+    console.log(indexTypeChar);
     indexTypeChar++;
 
     words = inputText.value;
@@ -54,8 +55,11 @@ function returEnteredWord() {
     arrayWordsSize = arrayWords.length - 1;
     //size array
     if (arrayWords[arrayWordsSize] == " ") {
-        compareWord();
         indexTypeChar = 0;
+        compareWord();
+        if (indexTypeChar == 0) {
+            indicator();
+        }
     }
 
     return arrayWords, arrayWordsSize;
