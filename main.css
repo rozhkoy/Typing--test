@@ -39,3 +39,10 @@
     font-size: 20px;
     padding: 5px;
 }
+
+.infoblock {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 20px 0px;
+    font-size: 36px;
+}

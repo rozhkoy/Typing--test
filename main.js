@@ -2,7 +2,7 @@ const inputText = document.getElementById('inputchar');
 //add enter field 
 
 let checkWord = ['word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match'];
-// check word
+
 let words;
 let checkIndex = 0
 let indexWord = 0;
@@ -10,18 +10,44 @@ let wordsVoc = 0;
 let index = 0;
 let indexWordN = 0;
 let vocWordsArray;
+let ok = document.getElementById('ok');
+let error = document.getElementById('error');
 let reset = document.getElementById('reset');
 reset.addEventListener("click", resetAll, false);
 let indexTypedWord = 0;
 let indexTypeChar = 0;
+let meter = 0;
+let errorMeter = 0;
 
+//show mater
+ok.innerHTML = `OK: ${meter}`;
+error.innerHTML = `Error: ${errorMeter}`;
+
+
+
+
+//reset all
 function resetAll() {
     checkIndex = 0
     indexWord = 0;
     wordsVoc = 0;
     index = 0;
-    return checkWord, indexWord, wordsVoc, index;
+    meter = 0;
+    indexWordN = 0;
+    errorMeter = 0;
+    indexTypedWord = 0;
+    indexTypeChar = 0;
+    //reset meter
+    ok.innerHTML = `OK: ${meter}`;
+    error.innerHTML = `Error: ${errorMeter}`;
+    document.getElementById('inputchar').value = "";
+    //reset indicator
+    for (let resetArray of vocWordsArray) {
+        resetArray.style.background = '#0000';
+    }
+    return indexWordN, checkWord, indexWord, indexTypedWord, indexTypeChar, wordsVoc, index, meter, errorMeter;
 }
+
 
 function showWord() {
     wordsVoc = document.getElementById('words');
@@ -35,7 +61,12 @@ function showWord() {
     vocWordsArray = Array.from(document.querySelectorAll('div.wordVoc'))
     return vocWordsArray;
 }
-showWord()
+
+
+
+
+
+
 
 document.addEventListener('keyup', returEnteredWord, false);
 
@@ -45,7 +76,6 @@ function returEnteredWord() {
     if (indexWord == 0) {
         indicator();
     }
-    console.log(indexTypeChar);
     indexTypeChar++;
 
     words = inputText.value;
@@ -55,6 +85,7 @@ function returEnteredWord() {
     arrayWordsSize = arrayWords.length - 1;
     //size array
     if (arrayWords[arrayWordsSize] == " ") {
+        console.log(words);
         indexTypeChar = 0;
         compareWord();
         if (indexTypeChar == 0) {
@@ -88,7 +119,7 @@ function indicator() {
     }
 
 
-    vocWordsArray[indexTypedWord].style.background = 'yellow';
+    vocWordsArray[indexTypedWord].style.background = '#0000';
     vocWordsArray[indexWord].style.background = 'red';
 
 }
@@ -108,12 +139,19 @@ function compareWord() {
         }
         if (checkIndex == arrayCheckWord.length) {
             console.log('ok');
+            meter++;
+            ok.innerHTML = `OK: ${meter}`;
         } else {
-            console.log('no ok');
+            errorMeter++
+            error.innerHTML = `Error: ${errorMeter}`;
         }
     } else {
-        console.log('no match');
+        errorMeter++
+        error.innerHTML = `Error: ${errorMeter}`;
     }
     indexWord++;
 
 }
+
+
+showWord()
