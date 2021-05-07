@@ -1,7 +1,37 @@
 const inputText = document.getElementById('inputchar');
 //add enter field 
+let checkWord = [];
+let addbutton = document.getElementById('ADD');
+addbutton.addEventListener("click", addWords, false);
+arrayWordsVoc = [];
 
-let checkWord = ['word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match'];
+// ['word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match'];
+let arrayInputAddWords;
+
+function addWords() {
+    arrayWordsVoc.length = 0;
+    arrayInputAddWords = document.getElementById('addWords').value;
+
+    arrayWordsVoc = arrayInputAddWords.split('=').join(',').split(':').split('.');
+
+    generateRandowVoc();
+}
+
+let randomNumber = 0;
+let arrayWordsVocMeter = 0;
+
+function generateRandowVoc() {
+    for (let i = 0; i < arrayWordsVoc.length; i++) {
+        randomNumber = Math.floor(Math.random() * arrayWordsVoc.length);
+        // console.log(randomNumber);
+        checkWord[arrayWordsVocMeter] = arrayWordsVoc[randomNumber];
+        arrayWordsVocMeter++;
+
+    }
+    showWord()
+}
+
+
 
 let words;
 let checkIndex = 0
@@ -23,7 +53,116 @@ let errorMeter = 0;
 ok.innerHTML = `OK: ${meter}`;
 error.innerHTML = `Error: ${errorMeter}`;
 
+function showWord() {
+    wordsVoc = document.getElementById('words');
 
+    for (let i = 0; i < checkWord.length; i++) {
+        let spanblock = document.createElement('div');
+        spanblock.className = "wordVoc";
+        spanblock.innerHTML = checkWord[index];
+        wordsVoc.append(spanblock);
+        index++
+    }
+    vocWordsArray = Array.from(document.querySelectorAll('div.wordVoc'))
+    return vocWordsArray;
+}
+
+function good() {
+    vocWordsArray[indexTypedWord].style.background = '#0f0';
+}
+
+function bed() {
+    vocWordsArray[indexTypedWord].style.background = '#f00';
+}
+
+
+
+inputText.addEventListener("keyup", function(event) {
+    // Number 33 is the "space" key on the keyboard
+    if (event.keyCode === 32) {
+        console.log(words);
+        returEnteredWord();
+        document.getElementById('inputchar').value = "";
+
+
+        indexTypeChar = 0;
+        compareWord();
+        if (indexTypeChar == 0) {
+            indicator();
+        }
+    }
+    if (event.keyCode != 32) {
+        returEnteredWord();
+    }
+});
+
+function returEnteredWord() {
+
+    if (indexWord == 0) {
+        indicator();
+    }
+    indexTypeChar++; //
+
+    words = inputText.value; //return value input
+    arrayWords = words.split(''); //divide up value on array
+    arrayWordsSize = arrayWords.length - 1; //size array
+    return arrayWords, arrayWordsSize;
+
+}
+
+
+function preparationWord() {
+    if (checkWord[indexWord] == undefined) {
+        console.log('ended test');
+    } else {
+        arrayCheckWord = checkWord[indexWord].split('');
+    }
+
+}
+
+
+
+function indicator() {
+    if (indexWord == 0) {
+        indexTypedWord = 0;
+    } else if (indexWord == 1) {
+        indexTypedWord = 1;
+    } else {
+        indexTypedWord++;
+    }
+
+    vocWordsArray[indexWord].style.background = '#ccc';
+}
+
+
+
+function compareWord() {
+    preparationWord();
+    if (arrayCheckWord.length == arrayWordsSize) {
+        checkIndex = 0;
+        for (let i = 0; i <= arrayCheckWord.length; i++) {
+            if (arrayCheckWord[checkIndex] == arrayWords[checkIndex]) {
+                checkIndex++;
+            }
+        }
+        if (checkIndex == arrayCheckWord.length) {
+            console.log('ok');
+            meter++;
+            good()
+            ok.innerHTML = `OK: ${meter}`;
+        } else {
+            errorMeter++
+            error.innerHTML = `Error: ${errorMeter}`;
+            bed()
+        }
+    } else {
+        errorMeter++
+        bed()
+        error.innerHTML = `Error: ${errorMeter}`;
+    }
+    indexWord++;
+
+}
 
 
 //reset all
@@ -47,111 +186,4 @@ function resetAll() {
     }
     return indexWordN, checkWord, indexWord, indexTypedWord, indexTypeChar, wordsVoc, index, meter, errorMeter;
 }
-
-
-function showWord() {
-    wordsVoc = document.getElementById('words');
-    for (let i = 0; i < checkWord.length; i++) {
-        let spanblock = document.createElement('div');
-        spanblock.className = "wordVoc";
-        spanblock.innerHTML = checkWord[index];
-        wordsVoc.append(spanblock);
-        index++
-    }
-    vocWordsArray = Array.from(document.querySelectorAll('div.wordVoc'))
-    return vocWordsArray;
-}
-
-
-
-
-
-
-
-document.addEventListener('keyup', returEnteredWord, false);
-
-
-function returEnteredWord() {
-
-    if (indexWord == 0) {
-        indicator();
-    }
-    indexTypeChar++;
-
-    words = inputText.value;
-    //return value input
-    arrayWords = words.split('');
-    //divide up value on array
-    arrayWordsSize = arrayWords.length - 1;
-    //size array
-    if (arrayWords[arrayWordsSize] == " ") {
-        console.log(words);
-        indexTypeChar = 0;
-        compareWord();
-        if (indexTypeChar == 0) {
-            indicator();
-        }
-    }
-
-    return arrayWords, arrayWordsSize;
-
-}
-
-
-function preparationWord() {
-    if (checkWord[indexWord] == undefined) {
-        console.log('ended test');
-    } else {
-        arrayCheckWord = checkWord[indexWord].split('');
-    }
-
-}
-
-
-
-function indicator() {
-    if (indexWord == 0) {
-        indexTypedWord = 0;
-    } else if (indexWord == 1) {
-        indexTypedWord = 0;
-    } else {
-        indexTypedWord++;
-    }
-
-
-    vocWordsArray[indexTypedWord].style.background = '#0000';
-    vocWordsArray[indexWord].style.background = 'red';
-
-}
-
-
-
-function compareWord() {
-    preparationWord();
-
-    document.getElementById('inputchar').value = "";
-    if (arrayCheckWord.length == arrayWordsSize) {
-        checkIndex = 0;
-        for (let i = 0; i <= arrayCheckWord.length; i++) {
-            if (arrayCheckWord[checkIndex] == arrayWords[checkIndex]) {
-                checkIndex++;
-            }
-        }
-        if (checkIndex == arrayCheckWord.length) {
-            console.log('ok');
-            meter++;
-            ok.innerHTML = `OK: ${meter}`;
-        } else {
-            errorMeter++
-            error.innerHTML = `Error: ${errorMeter}`;
-        }
-    } else {
-        errorMeter++
-        error.innerHTML = `Error: ${errorMeter}`;
-    }
-    indexWord++;
-
-}
-
-
-showWord()
+generateRandowVoc()
