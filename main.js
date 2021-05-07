@@ -8,17 +8,18 @@ let checkIndex = 0
 let indexWord = 0;
 let wordsVoc = 0;
 let index = 0;
+let indexWordN = 0;
 let vocWordsArray;
 let reset = document.getElementById('reset');
 reset.addEventListener("click", resetAll, false);
-
+let indexTypedWord = 0;
+let indexTypeChar = 0;
 
 function resetAll() {
     checkIndex = 0
     indexWord = 0;
     wordsVoc = 0;
     index = 0;
-    showWord()
     return checkWord, indexWord, wordsVoc, index;
 }
 
@@ -41,6 +42,11 @@ document.addEventListener('keyup', returEnteredWord, false);
 
 function returEnteredWord() {
 
+    if (indexTypeChar == 0) {
+        indicator();
+    }
+    indexTypeChar++;
+
     words = inputText.value;
     //return value input
     arrayWords = words.split('');
@@ -49,8 +55,11 @@ function returEnteredWord() {
     //size array
     if (arrayWords[arrayWordsSize] == " ") {
         compareWord();
+        indexTypeChar = 0;
     }
+
     return arrayWords, arrayWordsSize;
+
 }
 
 
@@ -63,15 +72,28 @@ function preparationWord() {
 
 }
 
+
+
 function indicator() {
+    if (indexWord == 0) {
+        indexTypedWord = 0;
+    } else if (indexWord == 1) {
+        indexTypedWord = 0;
+    } else {
+        indexTypedWord++;
+    }
+
+
+    vocWordsArray[indexTypedWord].style.background = 'yellow';
     vocWordsArray[indexWord].style.background = 'red';
+
 }
-indicator()
+
+
 
 function compareWord() {
-    indicator()
     preparationWord();
-    indexWord++;
+
     document.getElementById('inputchar').value = "";
     if (arrayCheckWord.length == arrayWordsSize) {
         checkIndex = 0;
@@ -88,4 +110,6 @@ function compareWord() {
     } else {
         console.log('no match');
     }
+    indexWord++;
+
 }
