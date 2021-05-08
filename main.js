@@ -1,38 +1,8 @@
 const inputText = document.getElementById('inputchar');
 //add enter field 
-let checkWord = [];
-let addbutton = document.getElementById('ADD');
-addbutton.addEventListener("click", addWords, false);
-arrayWordsVoc = [];
-
-// ['word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match'];
 let arrayInputAddWords;
-
-function addWords() {
-    arrayWordsVoc.length = 0;
-    arrayInputAddWords = document.getElementById('addWords').value;
-
-    arrayWordsVoc = arrayInputAddWords.split('=').join(',').split(':').split('.');
-
-    generateRandowVoc();
-}
-
 let randomNumber = 0;
 let arrayWordsVocMeter = 0;
-
-function generateRandowVoc() {
-    for (let i = 0; i < arrayWordsVoc.length; i++) {
-        randomNumber = Math.floor(Math.random() * arrayWordsVoc.length);
-        // console.log(randomNumber);
-        checkWord[arrayWordsVocMeter] = arrayWordsVoc[randomNumber];
-        arrayWordsVocMeter++;
-
-    }
-    showWord()
-}
-
-
-
 let words;
 let checkIndex = 0
 let indexWord = 0;
@@ -43,11 +13,64 @@ let vocWordsArray;
 let ok = document.getElementById('ok');
 let error = document.getElementById('error');
 let reset = document.getElementById('reset');
+let resultBlock = document.getElementById('result');
 reset.addEventListener("click", resetAll, false);
 let indexTypedWord = 0;
 let indexTypeChar = 0;
 let meter = 0;
 let errorMeter = 0;
+let checkWord = [];
+let WordsFromVoc;
+arrayWordsVoc = ['word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match'];
+let timeBlock = document.getElementById("time");
+let timeSeconds = 60;
+let timeMinuts = 0;
+resultBlock.innerHTML = "Result: 0";
+timeBlock.innerHTML = `Time: 1:00`;
+let time;
+let timeSecondsZero = "0";
+
+function timer() {
+    time = setInterval(function() {
+        timeSeconds--;
+
+        if (timeSeconds <= 9) {
+            timeSeconds.toString();
+            timeSecondsZero = timeSecondsZero + timeSeconds;
+
+            timeBlock.innerHTML = `Time: ${timeMinuts}:${timeSecondsZero}`;
+            timeSecondsZero = "0";
+            timeSeconds = timeSeconds + 0;
+        } else {
+            timeBlock.innerHTML = `Time: ${timeMinuts}:${timeSeconds}`;
+            console.log(timeSeconds);
+
+        }
+        if (timeSeconds == 0) {
+            clearTimeout(time);
+            showResult()
+            timeBlock.innerHTML = `Time: 1:00`;
+            timeSeconds = 60;
+        }
+    }, 1000);
+
+}
+
+
+function generateRandowVoc() {
+    for (let i = 0; i < arrayWordsVoc.length; i++) {
+        randomNumber = Math.floor(Math.random() * arrayWordsVoc.length);
+        // console.log(randomNumber);
+        checkWord[arrayWordsVocMeter] = arrayWordsVoc[randomNumber];
+        arrayWordsVocMeter++;
+
+    }
+    arrayWordsVocMeter = 0;
+    randomNumber = 0
+    showWord()
+}
+
+
 
 //show mater
 ok.innerHTML = `OK: ${meter}`;
@@ -98,8 +121,9 @@ inputText.addEventListener("keyup", function(event) {
 
 function returEnteredWord() {
 
-    if (indexWord == 0) {
+    if (indexWord == 0 && indexTypeChar == 0) {
         indicator();
+        timer();
     }
     indexTypeChar++; //
 
@@ -176,14 +200,35 @@ function resetAll() {
     errorMeter = 0;
     indexTypedWord = 0;
     indexTypeChar = 0;
+    timeSeconds = 60;
+    timeMinuts = 0;
+    timeSecondsZero = "0";
     //reset meter
     ok.innerHTML = `OK: ${meter}`;
     error.innerHTML = `Error: ${errorMeter}`;
     document.getElementById('inputchar').value = "";
+    resetWords()
+
     //reset indicator
     for (let resetArray of vocWordsArray) {
         resetArray.style.background = '#0000';
     }
-    return indexWordN, checkWord, indexWord, indexTypedWord, indexTypeChar, wordsVoc, index, meter, errorMeter;
+    return timeSecondsZero, timeMinuts, timeSecondsZero, indexWordN, checkWord, indexWord, indexTypedWord, indexTypeChar, wordsVoc, index, meter, errorMeter;
+}
+
+function showResult() {
+    resultBlock.innerHTML = `Result: ${meter}`;
+    resetAll();
+
+}
+
+function resetWords() {
+    for (let resetVoc of vocWordsArray) {
+        resetVoc.parentNode.removeChild(resetVoc);
+    }
+    checkWord.length = 0;
+    generateRandowVoc();
+
+
 }
 generateRandowVoc()
