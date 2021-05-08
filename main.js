@@ -86,6 +86,7 @@ function showWord() {
         wordsVoc.append(spanblock);
         index++
     }
+    index = 0;
     vocWordsArray = Array.from(document.querySelectorAll('div.wordVoc'))
     return vocWordsArray;
 }
@@ -137,11 +138,15 @@ function returEnteredWord() {
 
 function preparationWord() {
     if (checkWord[indexWord] == undefined) {
-        console.log('ended test');
+        resetWords();
+        indexWord = 0;
+        if (indexWord == 0 && indexTypeChar == 0) {
+            indicator();
+        }
     } else {
         arrayCheckWord = checkWord[indexWord].split('');
     }
-
+    return indexWord;
 }
 
 
