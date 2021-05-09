@@ -21,7 +21,7 @@ let meter = 0;
 let errorMeter = 0;
 let checkWord = [];
 let WordsFromVoc;
-arrayWordsVoc = ['word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match'];
+arrayWordsVoc = ['word', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match'];
 let timeBlock = document.getElementById("time");
 let timeSeconds = 60;
 let timeMinuts = 0;
@@ -126,6 +126,10 @@ function returEnteredWord() {
         indicator();
         timer();
     }
+    if (indexTypeChar == 0) {
+        preparationWord()
+        console.log(arrayCheckWord);
+    }
     indexTypeChar++; //
 
     words = inputText.value; //return value input
@@ -146,6 +150,7 @@ function preparationWord() {
     } else {
         arrayCheckWord = checkWord[indexWord].split('');
     }
+    indexWord++;
     return indexWord;
 }
 
@@ -166,7 +171,6 @@ function indicator() {
 
 
 function compareWord() {
-    preparationWord();
     if (arrayCheckWord.length == arrayWordsSize) {
         checkIndex = 0;
         for (let i = 0; i <= arrayCheckWord.length; i++) {
@@ -189,7 +193,14 @@ function compareWord() {
         bed()
         error.innerHTML = `Error: ${errorMeter}`;
     }
-    indexWord++;
+    if (indexWord == checkWord.length) {
+        resetWords();
+        indexWord = 0;
+        indexTypedWord = 0;
+        indicator();
+
+    }
+
 
 }
 
