@@ -56,7 +56,7 @@ function timer() {
             timeBlock.innerHTML = ` 1:00`;
 
         }
-    }, 100);
+    }, 1000);
 
 }
 
