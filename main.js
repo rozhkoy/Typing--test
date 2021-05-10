@@ -1,4 +1,5 @@
 const inputText = document.getElementById('inputchar');
+inputText.addEventListener("keyup", enterText, false);
 //add enter field 
 let arrayInputAddWords;
 let randomNumber = 0;
@@ -21,38 +22,41 @@ let meter = 0;
 let errorMeter = 0;
 let checkWord = [];
 let WordsFromVoc;
-arrayWordsVoc = ['word', 'match', 'word', 'time', 'match', 'word', 'time', 'match', 'word', 'time', 'match'];
+let timercheck = 1;
+let arrayWordsVoc = ['word', 'activity', 'learn', 'create', 'code', 'repository', 'request', 'pull', 'for', 'adapter', 'last', 'team', 'improve', 'power', 'way', 'world', 'access', 'more', 'edit', 'run', 'match', 'built', 'comments', 'design', 'open', 'cool', 'car', 'form', 'camera', 'apple', 'was', 'publish', 'guides', 'maintain', 'component', 'library', 'accomplish', 'window', 'type', 'allow', 'time', 'apps'];
 let timeBlock = document.getElementById("time");
-let timeSeconds = 60;
+let timeSeconds = 0;
 let timeMinuts = 0;
-resultBlock.innerHTML = "Result: 0";
-timeBlock.innerHTML = `Time: 1:00`;
+resultBlock.innerHTML = ` 0`;
+timeBlock.innerHTML = ` 1:00`;
 let time;
 let timeSecondsZero = "0";
 
 function timer() {
+    timeSeconds = 60;
     time = setInterval(function() {
         timeSeconds--;
 
         if (timeSeconds <= 9) {
             timeSeconds.toString();
             timeSecondsZero = timeSecondsZero + timeSeconds;
+            console.log("timeSeconds");
 
-            timeBlock.innerHTML = `Time: ${timeMinuts}:${timeSecondsZero}`;
+            timeBlock.innerHTML = `${timeMinuts}:${timeSecondsZero}`;
             timeSecondsZero = "0";
             timeSeconds = timeSeconds + 0;
         } else {
-            timeBlock.innerHTML = `Time: ${timeMinuts}:${timeSeconds}`;
+            timeBlock.innerHTML = ` ${timeMinuts}:${timeSeconds}`;
             console.log(timeSeconds);
 
         }
         if (timeSeconds == 0) {
             clearTimeout(time);
-            showResult()
-            timeBlock.innerHTML = `Time: 1:00`;
-            timeSeconds = 60;
+            showResult();
+            timeBlock.innerHTML = ` 1:00`;
+
         }
-    }, 1000);
+    }, 100);
 
 }
 
@@ -73,8 +77,8 @@ function generateRandowVoc() {
 
 
 //show mater
-ok.innerHTML = `OK: ${meter}`;
-error.innerHTML = `Error: ${errorMeter}`;
+ok.innerHTML = ` ${meter}`;
+error.innerHTML = ` ${errorMeter}`;
 
 function showWord() {
     wordsVoc = document.getElementById('words');
@@ -92,16 +96,18 @@ function showWord() {
 }
 
 function good() {
-    vocWordsArray[indexTypedWord].style.background = '#0f0';
+    vocWordsArray[indexTypedWord].style.color = '#38c695';
+    vocWordsArray[indexTypedWord].style.background = '#0000';
 }
 
 function bed() {
-    vocWordsArray[indexTypedWord].style.background = '#f00';
+    vocWordsArray[indexTypedWord].style.color = '#fc5f45';
+    vocWordsArray[indexTypedWord].style.background = '#0000';
 }
 
 
 
-inputText.addEventListener("keyup", function(event) {
+function enterText(event) {
     // Number 33 is the "space" key on the keyboard
     if (event.keyCode === 32) {
         console.log(words);
@@ -118,13 +124,14 @@ inputText.addEventListener("keyup", function(event) {
     if (event.keyCode != 32) {
         returEnteredWord();
     }
-});
+}
 
 function returEnteredWord() {
 
-    if (indexWord == 0 && indexTypeChar == 0) {
+    if (indexWord == 0 && indexTypeChar == 0 && timercheck === 1) {
         indicator();
         timer();
+        timercheck = 0;
     }
     if (indexTypeChar == 0) {
         preparationWord()
@@ -165,7 +172,7 @@ function indicator() {
         indexTypedWord++;
     }
 
-    vocWordsArray[indexWord].style.background = '#ccc';
+    vocWordsArray[indexWord].classList.add('selectword');
 }
 
 
@@ -182,16 +189,16 @@ function compareWord() {
             console.log('ok');
             meter++;
             good()
-            ok.innerHTML = `OK: ${meter}`;
+            ok.innerHTML = ` ${meter}`;
         } else {
             errorMeter++
-            error.innerHTML = `Error: ${errorMeter}`;
+            error.innerHTML = ` ${errorMeter}`;
             bed()
         }
     } else {
         errorMeter++
         bed()
-        error.innerHTML = `Error: ${errorMeter}`;
+        error.innerHTML = ` ${errorMeter}`;
     }
     if (indexWord == checkWord.length) {
         resetWords();
@@ -219,22 +226,41 @@ function resetAll() {
     timeSeconds = 60;
     timeMinuts = 0;
     timeSecondsZero = "0";
+    timercheck = 1;
     //reset meter
-    ok.innerHTML = `OK: ${meter}`;
-    error.innerHTML = `Error: ${errorMeter}`;
+    ok.innerHTML = ` ${meter}`;
+    error.innerHTML = ` ${errorMeter}`;
     document.getElementById('inputchar').value = "";
     resetWords()
-
+    reset.classList.remove('resetbttn');
     //reset indicator
     for (let resetArray of vocWordsArray) {
         resetArray.style.background = '#0000';
     }
-    return timeSecondsZero, timeMinuts, timeSecondsZero, indexWordN, checkWord, indexWord, indexTypedWord, indexTypeChar, wordsVoc, index, meter, errorMeter;
+    return timercheck, timeSecondsZero, timeMinuts, timeSecondsZero, indexWordN, checkWord, indexWord, indexTypedWord, indexTypeChar, wordsVoc, index, meter, errorMeter;
 }
 
 function showResult() {
-    resultBlock.innerHTML = `Result: ${meter}`;
-    resetAll();
+    resultBlock.innerHTML = ` ${meter}`;
+    checkIndex = 0
+    indexWord = 0;
+    wordsVoc = 0;
+    index = 0;
+    meter = 0;
+    indexWordN = 0;
+    errorMeter = 0;
+    indexTypedWord = 0;
+    indexTypeChar = 0;
+    inputText.removeEventListener("keyup", enterText, false);
+    //reset meter
+    ok.innerHTML = ` ${meter}`;
+    error.innerHTML = ` ${errorMeter}`;
+    //reset indicator
+    for (let resetArray of vocWordsArray) {
+        resetArray.style.background = '#0000';
+    }
+    reset.classList.add('resetbttn');
+    return indexWordN, checkWord, indexWord, indexTypedWord, indexTypeChar, wordsVoc, index, meter, errorMeter;
 
 }
 
