@@ -1,2 +1,2 @@
 # typing-test
-https://zolir18.github.io/Typing--test-/
+https://zolir18.github.io/Typing--test/
