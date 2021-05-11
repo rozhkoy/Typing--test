@@ -10,10 +10,10 @@ let wordsVoc = 0;
 let index = 0;
 let indexWordN = 0;
 let vocWordsArray;
-let ok = document.getElementById('ok'); //add output field 
-let error = document.getElementById('error'); //add output field  
-let reset = document.getElementById('reset'); //add button
-let resultBlock = document.getElementById('result'); //add output field 
+const ok = document.getElementById('ok'); //add output field
+const error = document.getElementById('error'); //add output field  
+const reset = document.getElementById('reset'); //add button
+const resultBlock = document.getElementById('result'); //add output field 
 reset.addEventListener("click", resetAll, false); // add event reset
 let indexTypedWord = 0;
 let indexTypeChar = 0;
@@ -23,7 +23,7 @@ let checkWord = [];
 let WordsFromVoc;
 let timercheck = 1;
 let arrayWordsVoc = ['word', 'activity', 'learn', 'create', 'code', 'repository', 'request', 'pull', 'for', 'adapter', 'last', 'team', 'improve', 'power', 'way', 'world', 'access', 'more', 'edit', 'run', 'match', 'built', 'comments', 'design', 'open', 'cool', 'car', 'form', 'camera', 'apple', 'was', 'publish', 'guides', 'maintain', 'component', 'library', 'accomplish', 'window', 'type', 'allow', 'time', 'apps'];
-let timeBlock = document.getElementById("time"); //add output field 
+const timeBlock = document.getElementById("time"); //add output field 
 let timeSeconds = 0;
 let timeMinuts = 0;
 resultBlock.innerHTML = ` 0`;
@@ -35,43 +35,43 @@ function timer() {
     timeSeconds = 60;
     time = setInterval(function() {
         timeSeconds--;
-
         if (timeSeconds <= 9) {
             timeSeconds.toString();
             timeSecondsZero = timeSecondsZero + timeSeconds;
-            console.log("timeSeconds");
-
             timeBlock.innerHTML = `${timeMinuts}:${timeSecondsZero}`;
             timeSecondsZero = "0";
             timeSeconds = timeSeconds + 0;
         } else {
             timeBlock.innerHTML = ` ${timeMinuts}:${timeSeconds}`;
-            console.log(timeSeconds);
-
         }
         if (timeSeconds == 0) {
             clearTimeout(time);
             showResult();
-            timeBlock.innerHTML = ` 1:00`;
-
         }
     }, 1000);
 
 }
 
+
+
+
+
 //generate vocabulary
 function generateRandowVoc() {
     for (let i = 0; i < arrayWordsVoc.length; i++) {
         randomNumber = Math.floor(Math.random() * arrayWordsVoc.length);
-        // console.log(randomNumber);
         checkWord[arrayWordsVocMeter] = arrayWordsVoc[randomNumber];
         arrayWordsVocMeter++;
-
     }
     arrayWordsVocMeter = 0;
     randomNumber = 0
     showWord()
 }
+
+
+
+
+
 
 
 
@@ -81,7 +81,6 @@ error.innerHTML = ` ${errorMeter}`;
 // сycle show word
 function showWord() {
     wordsVoc = document.getElementById('words');
-
     for (let i = 0; i < checkWord.length; i++) {
         let spanblock = document.createElement('div');
         spanblock.className = "wordVoc";
@@ -94,11 +93,16 @@ function showWord() {
     return vocWordsArray;
 }
 
+
+
 //good typed 
 function good() {
     vocWordsArray[indexTypedWord].style.color = '#38c695';
     vocWordsArray[indexTypedWord].style.background = '#0000';
 }
+
+
+
 // bed typed
 function bed() {
     vocWordsArray[indexTypedWord].style.color = '#fc5f45';
@@ -106,15 +110,15 @@ function bed() {
 }
 
 
+
+
+
 //check entered text
 function enterText(event) {
     // Number 33 is the "space" key on the keyboard
     if (event.keyCode === 32) {
-        console.log(words);
         returEnteredWord();
         document.getElementById('inputchar').value = "";
-
-
         indexTypeChar = 0;
         compareWord();
         if (indexTypeChar == 0) {
@@ -127,23 +131,19 @@ function enterText(event) {
 }
 //retunr entered text
 function returEnteredWord() {
-
     if (indexWord == 0 && indexTypeChar == 0 && timercheck === 1) {
         indicator();
         timer();
         timercheck = 0;
     }
     if (indexTypeChar == 0) {
-        preparationWord()
-        console.log(arrayCheckWord);
+        preparationWord();
     }
     indexTypeChar++; //
-
     words = inputText.value; //return value input
     arrayWords = words.split(''); //divide up value on array
     arrayWordsSize = arrayWords.length - 1; //size array
     return arrayWords, arrayWordsSize;
-
 }
 
 //preparation word
@@ -176,6 +176,9 @@ function indicator() {
 }
 
 
+
+
+
 //compare the typed word and the word from the dictionary
 function compareWord() {
     if (arrayCheckWord.length == arrayWordsSize) {
@@ -186,18 +189,17 @@ function compareWord() {
             }
         }
         if (checkIndex == arrayCheckWord.length) {
-            console.log('ok');
             meter++;
-            good()
+            good();
             ok.innerHTML = ` ${meter}`;
         } else {
             errorMeter++
             error.innerHTML = ` ${errorMeter}`;
-            bed()
+            bed();
         }
     } else {
         errorMeter++
-        bed()
+        bed();
         error.innerHTML = ` ${errorMeter}`;
     }
     if (indexWord == checkWord.length) {
@@ -241,7 +243,6 @@ function resetAll() {
 }
 // show result
 function showResult() {
-    resultBlock.innerHTML = ` ${meter}`;
     checkIndex = 0
     indexWord = 0;
     wordsVoc = 0;
@@ -273,4 +274,5 @@ function resetWords() {
 
 
 }
-generateRandowVoc()
+
+generateRandowVoc();
