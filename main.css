@@ -101,3 +101,11 @@ a {
     font-size: 35px;
     color: #e1e1e1;
 }
+
+.transparent {
+    background: #0000;
+}
+
+.mark {
+    background: #75757575;
+}
