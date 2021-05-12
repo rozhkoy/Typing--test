@@ -33,6 +33,7 @@ a {
     align-items: start;
     padding: 10px;
     background: #e1e1e1;
+    border-radius: 4px;
 }
 
 .selectword {
