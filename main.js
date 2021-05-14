@@ -12,6 +12,7 @@ let indexWordN = 0;
 let vocWordsArray;
 
 
+
 const ok = document.getElementById('ok'); //add output field 
 const error = document.getElementById('error'); //add output field  
 const reset = document.getElementById('reset'); //add button
@@ -119,8 +120,9 @@ function bed() {
 
 //check entered text
 function enterText(event) {
+    alert(event.code);
     // Number 33 is the "space" key on the keyboard
-    if (event.keyCode === 32 || event.key = " ") {
+    if (event.keyCode === 32){
         console.log(words);
         returEnteredWord();
         document.getElementById('inputchar').value = "";
