@@ -120,9 +120,9 @@ function bed() {
 
 //check entered text
 function enterText(event) {
-    alert(event.code);
+
     // Number 33 is the "space" key on the keyboard
-    if (event.keyCode === 32){
+    if (event.code === 'Space'){
         console.log(words);
         returEnteredWord();
         document.getElementById('inputchar').value = "";
