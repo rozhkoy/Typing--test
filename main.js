@@ -1,5 +1,5 @@
 const inputText = document.getElementById('inputchar'); //add enter field 
-document.addEventListener("keyup", enterText, false); //add event
+inputText.addEventListener("keyup", enterText, false); //add event
 let arrayInputAddWords;
 let randomNumber = 0;
 let arrayWordsVocMeter = 0;
