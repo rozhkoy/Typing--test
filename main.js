@@ -1,47 +1,38 @@
 const inputText = document.getElementById('inputchar'); //add enter field 
-document.addEventListener("keyup", enterText, false); //add event
-let arrayInputAddWords;
-let randomNumber = 0;
-let arrayWordsVocMeter = 0;
-let words;
 let checkIndex = 0
 let indexWord = 0;
 let wordsVoc = 0;
 let index = 0;
 let indexWordN = 0;
 let vocWordsArray;
-
-
 const ok = document.getElementById('ok'); //add output field 
 const error = document.getElementById('error'); //add output field  
 const reset = document.getElementById('reset'); //add button
 const resultBlock = document.getElementById('result'); //add output field 
-
-
-reset.addEventListener("click", resetAll, false); // add event reset
+const timeBlock = document.getElementById("time"); //add output field 
 let indexTypedWord = 0;
 let indexTypeChar = 0;
 let meter = 0;
 let errorMeter = 0;
 let checkWord = [];
-let WordsFromVoc;
 let timercheck = 1;
-let arrayWordsVoc = ['word', 'activity', 'learn', 'create', 'code', 'repository', 'request', 'pull', 'for', 'adapter', 'last', 'team', 'improve', 'power', 'way', 'world', 'access', 'more', 'edit', 'run', 'match', 'built', 'comments', 'design', 'open', 'cool', 'car', 'form', 'camera', 'apple', 'was', 'publish', 'guides', 'maintain', 'component', 'library', 'accomplish', 'window', 'type', 'allow', 'time', 'apps'];
-
-
-const timeBlock = document.getElementById("time"); //add output field 
+let arrayWordsVoc = ['word', 'activity', 'learn', 'create', 'code',
+    'repository', 'request', 'pull', 'for', 'adapter', 'last', 'team',
+    'improve', 'power', 'way', 'world', 'access', 'more', 'edit', 'run',
+    'match', 'built', 'comments', 'design', 'open', 'cool', 'car', 'form',
+    'camera', 'apple', 'was', 'publish', 'guides', 'maintain', 'component',
+    'library', 'accomplish', 'window', 'type', 'allow', 'time', 'apps'
+];
 let timeSeconds = 0;
 let timeMinuts = 0;
 resultBlock.innerHTML = ` 0`;
 timeBlock.innerHTML = ` 1:00`;
 let time;
 let timeSecondsZero = "0";
-
-
-
-
-
-
+reset.addEventListener("click", resetAll, false); // add event reset
+//show info
+ok.innerHTML = ` ${meter}`;
+error.innerHTML = ` ${errorMeter}`;
 
 // timer
 function timer() {
@@ -51,13 +42,11 @@ function timer() {
         if (timeSeconds <= 9) {
             timeSeconds.toString();
             timeSecondsZero = timeSecondsZero + timeSeconds;
-            console.log("timeSeconds");
             timeBlock.innerHTML = `${timeMinuts}:${timeSecondsZero}`;
             timeSecondsZero = "0";
             timeSeconds = timeSeconds + 0;
         } else {
             timeBlock.innerHTML = ` ${timeMinuts}:${timeSeconds}`;
-            console.log(timeSeconds);
         }
         if (timeSeconds == 0) {
             clearTimeout(time);
@@ -70,9 +59,11 @@ function timer() {
 
 //generate vocabulary
 function generateRandowVoc() {
+    inputText.addEventListener("keyup", enterText, false); //add event "keyup"
+    let randomNumber = 0;
+    let arrayWordsVocMeter = 0;
     for (let i = 0; i < arrayWordsVoc.length; i++) {
         randomNumber = Math.floor(Math.random() * arrayWordsVoc.length);
-        // console.log(randomNumber);
         checkWord[arrayWordsVocMeter] = arrayWordsVoc[randomNumber];
         arrayWordsVocMeter++;
     }
@@ -81,13 +72,6 @@ function generateRandowVoc() {
     showWord()
 }
 
-
-
-
-
-//show info
-ok.innerHTML = ` ${meter}`;
-error.innerHTML = ` ${errorMeter}`;
 // сycle show word
 function showWord() {
     wordsVoc = document.getElementById('words');
@@ -114,14 +98,10 @@ function bed() {
     vocWordsArray[indexTypedWord].classList.remove('selectword');
 }
 
-
-
-
 //check entered text
 function enterText(event) {
     // Number 33 is the "space" key on the keyboard
-    if (event.keyCode === 62) {
-        console.log(words);
+    if (event.keyCode === 32) {
         returEnteredWord();
         document.getElementById('inputchar').value = "";
         indexTypeChar = 0;
@@ -135,19 +115,20 @@ function enterText(event) {
     }
 }
 
-
-
-
 //retunr entered text
 function returEnteredWord() {
-    if (indexWord == 0 && indexTypeChar == 0 && timercheck == 1) {
+    let words;
+    if (
+        indexWord == 0 &&
+        indexTypeChar == 0 &&
+        timercheck == 1
+    ) {
         indicator();
         timer();
         timercheck = 0;
     }
     if (indexTypeChar == 0) {
         preparationWord()
-        console.log(arrayCheckWord);
     }
     indexTypeChar++; //
     words = inputText.value; //return value input
@@ -172,7 +153,6 @@ function preparationWord() {
     return indexWord;
 }
 
-
 //marking entered text
 function indicator() {
     if (indexWord == 0) {
@@ -185,11 +165,6 @@ function indicator() {
     vocWordsArray[indexWord].classList.add('selectword');
 }
 
-
-
-
-
-
 //compare the typed word and the word from the dictionary
 function compareWord() {
     if (arrayCheckWord.length == arrayWordsSize) {
@@ -200,7 +175,6 @@ function compareWord() {
             }
         }
         if (checkIndex == arrayCheckWord.length) {
-            console.log('ok');
             meter++;
             good()
             ok.innerHTML = ` ${meter}`;
@@ -222,7 +196,6 @@ function compareWord() {
     }
 }
 
-
 //reset all
 function resetAll() {
     clearTimeout(time);
@@ -240,8 +213,6 @@ function resetAll() {
     timeMinuts = 0;
     timeSecondsZero = "0";
     timercheck = 1;
-
-
 
     //reset meter
     ok.innerHTML = ` ${meter}`;
