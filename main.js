@@ -1,15 +1,15 @@
-const inputText = document.getElementById('inputchar'); //add enter field 
-let checkIndex = 0
+const inputText = document.getElementById('inputchar'); //add enter field
+let checkIndex = 0;
 let indexWord = 0;
 let wordsVoc = 0;
 let index = 0;
 let indexWordN = 0;
 let vocWordsArray;
-const ok = document.getElementById('ok'); //add output field 
-const error = document.getElementById('error'); //add output field  
+const ok = document.getElementById('ok'); //add output field
+const error = document.getElementById('error'); //add output field
 const reset = document.getElementById('reset'); //add button
-const resultBlock = document.getElementById('result'); //add output field 
-const timeBlock = document.getElementById("time"); //add output field 
+const resultBlock = document.getElementById('result'); //add output field
+const timeBlock = document.getElementById('time'); //add output field
 let indexTypedWord = 0;
 let indexTypeChar = 0;
 let meter = 0;
@@ -28,8 +28,8 @@ let timeMinuts = 0;
 resultBlock.innerHTML = ` 0`;
 timeBlock.innerHTML = ` 1:00`;
 let time;
-let timeSecondsZero = "0";
-reset.addEventListener("click", resetAll, false); // add event reset
+let timeSecondsZero = '0';
+reset.addEventListener('click', resetAll, false); // add event reset
 //show info
 ok.innerHTML = ` ${meter}`;
 error.innerHTML = ` ${errorMeter}`;
@@ -39,85 +39,85 @@ function timer() {
     timeSeconds = 60;
     time = setInterval(function() {
         timeSeconds--;
+
         if (timeSeconds <= 9) {
             timeSeconds.toString();
             timeSecondsZero = timeSecondsZero + timeSeconds;
             timeBlock.innerHTML = `${timeMinuts}:${timeSecondsZero}`;
-            timeSecondsZero = "0";
+            timeSecondsZero = '0';
             timeSeconds = timeSeconds + 0;
         } else {
             timeBlock.innerHTML = ` ${timeMinuts}:${timeSeconds}`;
         }
+
         if (timeSeconds == 0) {
             clearTimeout(time);
             showResult();
             timeBlock.innerHTML = ` 0:00`;
         }
+
     }, 1000);
 
 }
 
 //generate vocabulary
 function generateRandowVoc() {
-    inputText.addEventListener("keyup", enterText, false); //add event "keyup"
+    inputText.addEventListener('keyup', enterText, false); //add event 'keyup'
     let randomNumber = 0;
     let arrayWordsVocMeter = 0;
+
     for (let i = 0; i < arrayWordsVoc.length; i++) {
         randomNumber = Math.floor(Math.random() * arrayWordsVoc.length);
         checkWord[arrayWordsVocMeter] = arrayWordsVoc[randomNumber];
         arrayWordsVocMeter++;
     }
+
     arrayWordsVocMeter = 0;
-    randomNumber = 0
+    randomNumber = 0;
     showWord()
 }
 
 // сycle show word
 function showWord() {
     wordsVoc = document.getElementById('words');
+
     for (let i = 0; i < checkWord.length; i++) {
         let spanblock = document.createElement('div');
-        spanblock.className = "wordVoc";
+        spanblock.className = 'wordVoc';
         spanblock.innerHTML = checkWord[index];
         wordsVoc.append(spanblock);
-        index++
+        index++;
     }
-    index = 0;
-    vocWordsArray = Array.from(document.querySelectorAll('div.wordVoc'))
-    return vocWordsArray;
-}
 
-//good typed 
-function good() {
-    vocWordsArray[indexTypedWord].style.color = '#38c695';
-    vocWordsArray[indexTypedWord].classList.remove('selectword');
-}
-// bed typed
-function bed() {
-    vocWordsArray[indexTypedWord].style.color = '#fc5f45';
-    vocWordsArray[indexTypedWord].classList.remove('selectword');
+    index = 0;
+    vocWordsArray = Array.from(document.querySelectorAll('div.wordVoc'));
+    return vocWordsArray;
 }
 
 //check entered text
 function enterText(event) {
-    // Number 33 is the "space" key on the keyboard
+    // Number 33 is the 'space' key on the keyboard
     if (event.keyCode === 32) {
         returEnteredWord();
-        document.getElementById('inputchar').value = "";
+        document.getElementById('inputchar').value = '';
         indexTypeChar = 0;
         compareWord();
+
         if (indexTypeChar == 0) {
             indicator();
-        }
-    }
+        };
+
+    };
+
     if (event.keyCode != 32) {
         returEnteredWord();
-    }
+    };
 }
 
 //retunr entered text
 function returEnteredWord() {
     let words;
+
     if (
         indexWord == 0 &&
         indexTypeChar == 0 &&
@@ -127,9 +127,11 @@ function returEnteredWord() {
         timer();
         timercheck = 0;
     }
+
     if (indexTypeChar == 0) {
-        preparationWord()
+        preparationWord();
     }
+
     indexTypeChar++; //
     words = inputText.value; //return value input
     arrayWords = words.split(''); //divide up value on array
@@ -143,15 +145,19 @@ function preparationWord() {
     if (checkWord[indexWord] == undefined) {
         resetWords();
         indexWord = 0;
+
         if (indexWord == 0 && indexTypeChar == 0) {
             indicator();
         }
+
     } else {
         arrayCheckWord = checkWord[indexWord].split('');
     }
+
     indexWord++;
     return indexWord;
 }
+
 
 //marking entered text
 function indicator() {
@@ -162,6 +168,7 @@ function indicator() {
     } else {
         indexTypedWord++;
     }
+
     vocWordsArray[indexWord].classList.add('selectword');
 }
 
@@ -169,17 +176,20 @@ function indicator() {
 function compareWord() {
     if (arrayCheckWord.length == arrayWordsSize) {
         checkIndex = 0;
+
         for (let i = 0; i <= arrayCheckWord.length; i++) {
+
             if (arrayCheckWord[checkIndex] == arrayWords[checkIndex]) {
                 checkIndex++;
             }
         }
+
         if (checkIndex == arrayCheckWord.length) {
             meter++;
             good()
             ok.innerHTML = ` ${meter}`;
         } else {
-            errorMeter++
+            errorMeter++;
             error.innerHTML = ` ${errorMeter}`;
             bed()
         }
@@ -188,12 +198,43 @@ function compareWord() {
         bed()
         error.innerHTML = ` ${errorMeter}`;
     }
+
     if (indexWord == checkWord.length) {
         resetWords();
         indexWord = 0;
         indexTypedWord = 0;
         indicator();
     }
+}
+
+//good typed
+function good() {
+    vocWordsArray[indexTypedWord].style.color = '#38c695';
+    vocWordsArray[indexTypedWord].classList.remove('selectword');
+}
+// bad typed
+function bed() {
+    vocWordsArray[indexTypedWord].style.color = '#fc5f45';
+    vocWordsArray[indexTypedWord].classList.remove('selectword');
+}
+
+// show result
+function showResult() {
+    resultBlock.innerHTML = ` ${meter}`;
+    checkIndex = 0
+    indexWord = 0;
+    wordsVoc = 0;
+    index = 0;
+    meter = 0;
+    indexWordN = 0;
+    errorMeter = 0;
+    indexTypedWord = 0;
+    indexTypeChar = 0;
+    inputText.removeEventListener('keyup', enterText, false);
+    ok.innerHTML = ` ${meter}`;
+    error.innerHTML = ` ${errorMeter}`;
+    reset.classList.add('resetbttn');
+    return indexWordN, checkWord, indexWord, indexTypedWord, indexTypeChar, wordsVoc, index, meter, errorMeter;
 }
 
 //reset all
@@ -211,41 +252,21 @@ function resetAll() {
     indexTypeChar = 0;
     timeSeconds = 0;
     timeMinuts = 0;
-    timeSecondsZero = "0";
+    timeSecondsZero = '0';
     timercheck = 1;
-
-    //reset meter
     ok.innerHTML = ` ${meter}`;
     error.innerHTML = ` ${errorMeter}`;
-    document.getElementById('inputchar').value = "";
-    resetWords()
+    document.getElementById('inputchar').value = '';
+    resetWords();
     reset.classList.remove('resetbttn');
     return timercheck, timeSecondsZero, timeMinuts, timeSecondsZero, indexWordN, checkWord, indexWord, indexTypedWord, indexTypeChar, wordsVoc, index, meter, errorMeter;
 }
-// show result
-function showResult() {
-    resultBlock.innerHTML = ` ${meter}`;
-    checkIndex = 0
-    indexWord = 0;
-    wordsVoc = 0;
-    index = 0;
-    meter = 0;
-    indexWordN = 0;
-    errorMeter = 0;
-    indexTypedWord = 0;
-    indexTypeChar = 0;
-    inputText.removeEventListener("keyup", enterText, false);
-    //reset meter
-    ok.innerHTML = ` ${meter}`;
-    error.innerHTML = ` ${errorMeter}`;
-    reset.classList.add('resetbttn');
-    return indexWordN, checkWord, indexWord, indexTypedWord, indexTypeChar, wordsVoc, index, meter, errorMeter;
-}
-//reset  word field 
+//reset  word field
 function resetWords() {
     for (let resetVoc of vocWordsArray) {
         resetVoc.parentNode.removeChild(resetVoc);
     }
+
     checkWord.length = 0;
     generateRandowVoc();
 }
